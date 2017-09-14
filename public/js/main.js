@@ -40,10 +40,20 @@ function addMessage(body, title) {
 // This gets called whenver the form is submitted (check out the index.ejs).
 // Uses jQuery to get the message info and passes it to 'addMessage to actually submit the info to firebase.
 function handleMessageFormSubmit() {
-  var body = $('#new-post-body').val();
-  var title = $('#new-post-title').val();
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var myObj = JSON.parse(this.responseText);
+        $('#stream').append(`<div>${myObj}</div>`);
+    }
+  };
+  xmlhttp.open("GET", "https://my-first-db-bf2d7.firebaseio.com/stream/-KtYaZiN7jZTCgrT3XGP/author.json", true);
+  xmlhttp.send();
 
-  addMessage(body, title);
+  //var body = $('#new-post-body').val();
+  //var title = $('#new-post-title').val();
+
+  //addMessage(body, title);
 }
 
 // Gets called whenever the user clicks "sign in" or "sign out".
